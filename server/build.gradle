@@ -1,0 +1,58 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.21'
+        classpath 'org.jetbrains.kotlin:kotlin-serialization:2.1.21'
+        classpath 'com.gradleup.shadow:shadow-gradle-plugin:8.3.6'
+    }
+}
+
+apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+apply plugin: 'application'
+apply plugin: 'com.gradleup.shadow'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3'
+    implementation 'org.jetbrains.exposed:exposed-core:0.53.0'
+    implementation 'org.jetbrains.exposed:exposed-jdbc:0.53.0'
+    implementation 'org.xerial:sqlite-jdbc:3.46.1.0'
+    implementation 'com.mysql:mysql-connector-j:8.4.0'
+    implementation 'at.favre.lib:bcrypt:0.10.2'
+    implementation 'org.slf4j:slf4j-nop:2.0.13'
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+application {
+    mainClass = 'com.example.timetable.server.ServerKt'
+}
+
+shadowJar {
+    archiveClassifier = 'all'
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': 'com.example.timetable.server.ServerKt'
+    }
+}
+
+// 兼容旧命令：fatJar = shadowJar
+tasks.register('fatJar') {
+    dependsOn tasks.shadowJar
+}

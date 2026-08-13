@@ -1,0 +1,16 @@
+.gradle/
+build/
+**/build/
+.idea/
+*.iml
+.kotlin/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+iosApp/iosApp.xcodeproj/xcuserdata/
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.db
+*.log
+timetables.json
